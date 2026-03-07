@@ -5,6 +5,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
+    "strictFunctionTypes": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,

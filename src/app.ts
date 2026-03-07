@@ -1,21 +1,33 @@
-import Vue from "vue";
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-var Profile = Vue.extend({
-  template: "<p>{{firstName}} {{lastName}} aka {{alias}}</p>",
-  data: function () {
+// ---- Vue.extend による書き方 ----
+const ProfileExtend = Vue.extend({
+  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+  data() {
     return {
-      firstName: "Walter",
-      lastName: "White",
-      alias: "Heisenberg",
-    };
+      firstName: 'Walter',
+      lastName: 'White',
+      alias: 'Heisenberg',
+    }
   },
-});
+})
 
-export default Vue.extend({
-  name: "App",
-  //マウント後に実行。
+// ---- vue-class-component による書き方 ----
+@Component({
+  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>'
+})
+class ProfileClass extends Vue {
+  firstName = 'Walter'
+  lastName = 'White'
+  alias = 'Heisenberg'
+}
+
+// ---- App ----
+@Component
+export default class App extends Vue {
   mounted() {
-    // Profile のインスタンスを作成して、要素上にマウントする
-    new Profile().$mount("#mount-point");
-  },
-});
+    new ProfileExtend().$mount('#mount-point-extend')
+    new ProfileClass().$mount('#mount-point-class')
+  }
+}
