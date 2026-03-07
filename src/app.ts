@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 
 // ---- Vue.extend による書き方 ----
+// Vue.extendがないとthisの型推論がされない。
 const ProfileExtend = Vue.extend({
   template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
   data() {
