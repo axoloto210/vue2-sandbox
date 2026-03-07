@@ -35,3 +35,10 @@ https://v2.ja.vuejs.org/
 >結果は以下のようになります:
 >
 ><p>Walter White aka Heisenberg</p>
+
+
+### vue-property-decorator
+vue-property-decoratorはvue-class-componentに完全に依存しているライブラリで、`@Props`など追加のデコレーターを使用できるようにするライブラリ。
+`@Component`デコレータは`vue-class-component`のもの。
+
+`Vue`を`vue-property-decorator`からimportして継承することで使用できるようになる。
