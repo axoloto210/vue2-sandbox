@@ -93,3 +93,39 @@ export class HelloWorld extends mixins(Hello, World) {}
 hooksの実行については両方実行される。
 同名プロパティの使用は避ける方が良い。
 
+#### Caveats of Class Component
+https://class-component.vuejs.org/guide/caveats.html#this-value-in-property-initializer
+
+クラスプロパティとしてアロー関数を定義し、`this`にアクセスしても、プロキシオブジェクトを指してしまってうまく値を更新できない。
+
+>通常のメソッド → this は呼び出し時に決まる
+>アロー関数 → this は定義時に静的に束縛される
+>
+>Vue は内部で、クラスのメソッドを Vue インスタンスに正しくバインドし直す処理を行います。
+>しかしアロー関数はそのバインドし直しを受け付けないため、初期化中の不完全な this（プロキシオブジェクト）が固定されたままになります。
+
+`this`は同じものを指すものの、差し替えができないために不具合が起こる。
+
+>「this は同じものを指すが、差し替えができない」は妥当です
+>ソースコードを見ると、vue-class-component は内部でこういう処理をしています：
+>```js
+>// this（プロキシオブジェクト）の各キーを、vm（本物のVueインスタンス）へ転送する
+>keys.forEach(key => {
+>  Object.defineProperty(this, key, {
+>    get: () => vm[key],
+>    set: value => { vm[key] = value }, // ← vm に書き込む
+>    configurable: true
+>  })
+>})
+>```
+>
+>// クラスプロパティを収集するためにコンストラクタを実行
+>`const data = new Component()`
+>つまり：
+>
+>`this`（プロキシ）は vm（本物の Vue インスタンス）へ get/set を転送するラッパー
+>`this.foo = 456` と書けば、プロキシ経由で `vm.foo = 456` に届く → 正しく動く
+>しかしアロー関数は `this`（プロキシ）を束縛して固定するため、後から `this` を本物の vm に差し替えられない
+>アロー関数が呼ばれる頃には `new Component()` は終わっており、プロキシオブジェクト自体はすでに捨てられた状態
+>
+>なので「同じものを指しているが差し替えができない」という表現は、この仕組みを正確に捉えていると言えます。
