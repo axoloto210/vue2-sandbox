@@ -81,3 +81,15 @@ class ProfileClass extends Vue {
   ];
 }
 ```
+
+#### `extends`と`mixins`
+`extends`は単一クラスの継承に使用される。jsに元からある機能。
+一方で`mixins`は複数のクラスコンポーネントを継承するのに使われる。
+```js
+@Component
+export class HelloWorld extends mixins(Hello, World) {}
+```
+のように使用でき、同名プロパティが引数のクラスコンポーネントに含まれるときには、先に渡された（引数の左側）クラスコンポーネントが優先される。
+hooksの実行については両方実行される。
+同名プロパティの使用は避ける方が良い。
+
