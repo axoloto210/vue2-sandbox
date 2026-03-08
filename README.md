@@ -129,3 +129,6 @@ https://class-component.vuejs.org/guide/caveats.html#this-value-in-property-init
 >アロー関数が呼ばれる頃には `new Component()` は終わっており、プロキシオブジェクト自体はすでに捨てられた状態
 >
 >なので「同じものを指しているが差し替えができない」という表現は、この仕組みを正確に捉えていると言えます。
+
+`constructor`についても使用してはいけない。
+内部実装により2度呼ばれてしまうため、代わりに`created()`を使用する必要がある。
