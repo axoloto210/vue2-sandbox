@@ -42,3 +42,42 @@ vue-property-decoratorはvue-class-componentに完全に依存しているライ
 `@Component`デコレータは`vue-class-component`のもの。
 
 `Vue`を`vue-property-decorator`からimportして継承することで使用できるようになる。
+
+### vue-class-component
+https://class-component.vuejs.org/
+
+Classコンポーネントを簡潔にかけるようにするライブラリ。
+`@Component`デコレーターを使って、クラスを記述することで、`data()`の返り値をクラスのプロパティ、`method()`の返り値をクラスのメソッドとして扱うことができるようになる。
+このため、TypeScriptで型を返り値の形式でないとつけられなかった部分にも自然に型注釈をつけられるようになる。
+```ts
+  data(): {
+    firstName: string;
+    lastName: string;
+    alias: string;
+    todos: { text: string }[];
+  } {
+    return {
+      firstName: "Walter", //型注釈はdata()の返り値オブジェクトの形式でないと書けない。
+      lastName: "White",
+      alias: "Heisenberg",
+      todos: [
+        { text: "Learn JavaScript" },
+        { text: "Learn Vue" },
+        { text: "Build something awesome" },
+      ],
+    };
+  },
+```
+
+```ts
+class ProfileClass extends Vue {
+  firstName: "Walter" = "Walter"; //classベースだと型注釈を書くことができる。
+  lastName = "White";
+  alias = "Heisenberg";
+  todos = [
+    { text: "Learn JavaScript" },
+    { text: "Learn Vue" },
+    { text: "Build something awesome" },
+  ];
+}
+```
